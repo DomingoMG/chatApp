@@ -1,17 +1,15 @@
 # chatapp
+Front-End App de mensajería online, se basa de la misma forma como WhatsApp, Messenger, Line, Telegram o otras apps similares.
 
-A new Flutter project.
+## Desarrollado por DomingoMG
+Este proyecto está creado con Flutter.
+Es necesario tener el back-end para el funcionamiento de la App.
 
-## Getting Started
+- [Back-End Server de ChatApp con NodeJS](https://flutter.dev/docs/get-started/codelab)
 
-This project is a starting point for a Flutter application.
+1. Descargar el proyecto de GitHub.
+2. Abrir el proyecto con Visual Studio Code.
+3. Ejecutar en el proyecto: flutter get packages
+4. Ejecutar flutter run en Android o iOS
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# chatApp
+Espero que el proyecto os sirva como demostración.

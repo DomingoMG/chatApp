@@ -1,8 +1,11 @@
+import 'package:chatapp/src/helpers/showAlert.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:chatapp/src/widgets/customInput.dart';
 import 'package:chatapp/src/widgets/customButton.dart';
 import 'package:chatapp/src/widgets/labels.dart';
 import 'package:chatapp/src/widgets/logo.dart';
+import 'package:chatapp/src/services/auth.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -47,6 +50,7 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthService authServices = Provider.of<AuthService>( context );
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -66,10 +70,17 @@ class __FormState extends State<_Form> {
           ),
           CustomButton(
             title: 'Iniciar Sesión',
-            callback: (){
-              print( _txtEmail.text );
-              print( _txtPassword.text );
-            },
+            callback: authServices.isAuthNow ? null : () async { 
+              FocusScope.of(context).unfocus();
+              final loginSuccess = await authServices.login( _txtEmail.text.trim(), _txtPassword.text );
+              if( loginSuccess ){
+                // TODO: Conectar a nuestro socket server
+                Navigator.of(context).pushReplacementNamed('users');
+                // TODO: Navegar a otra pantalla
+              } else {
+                showSimpleAlert(context, 'Login incorrecto', 'Email o contraseña incorrecto.');
+              }
+            }
           )
         ],
       ),

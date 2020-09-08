@@ -1,8 +1,11 @@
+import 'package:chatapp/src/helpers/showAlert.dart';
+import 'package:chatapp/src/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:chatapp/src/widgets/customInput.dart';
 import 'package:chatapp/src/widgets/customButton.dart';
 import 'package:chatapp/src/widgets/labels.dart';
 import 'package:chatapp/src/widgets/logo.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -48,6 +51,7 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthService authService = Provider.of<AuthService>( context );
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -73,9 +77,13 @@ class __FormState extends State<_Form> {
           ),
           CustomButton(
             title: 'Crear cuenta',
-            callback: (){
-              print( _txtEmail.text );
-              print( _txtPassword.text );
+            callback: authService.isAuthNow ? null : () async {
+              final registerSuccess = await authService.register(_txtName.text, _txtEmail.text.trim(), _txtPassword.text);
+              if( registerSuccess ){
+                showSimpleAlert(context, 'Completado', 'Se ha registrado con éxito.').then((value) => Navigator.of(context).pushReplacementNamed('login'));
+              } else {
+                showSimpleAlert(context, 'Error', 'Ya existe una cuenta con este correo electrónico');
+              }
             },
           )
         ],

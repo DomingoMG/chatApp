@@ -1,4 +1,5 @@
 import 'package:chatapp/src/helpers/showAlert.dart';
+import 'package:chatapp/src/services/socket.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:chatapp/src/widgets/customInput.dart';
@@ -51,6 +52,7 @@ class __FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     final AuthService authServices = Provider.of<AuthService>( context );
+    final SocketService socketService = Provider.of<SocketService>( context );
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -72,9 +74,9 @@ class __FormState extends State<_Form> {
             title: 'Iniciar Sesión',
             callback: authServices.isAuthNow ? null : () async { 
               FocusScope.of(context).unfocus();
-              final loginSuccess = await authServices.login( _txtEmail.text.trim(), _txtPassword.text );
+              final loginSuccess = await authServices.login( _txtEmail.text.trim().toLowerCase(), _txtPassword.text );
               if( loginSuccess ){
-                // TODO: Conectar a nuestro socket server
+                socketService.connect();
                 Navigator.of(context).pushReplacementNamed('users');
                 // TODO: Navegar a otra pantalla
               } else {
